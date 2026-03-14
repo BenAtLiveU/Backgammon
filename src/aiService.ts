@@ -57,3 +57,28 @@ export async function getBestMove(
     return 0; // Fallback to first legal move
   }
 }
+
+export async function getGameAnalysis(history: string[]): Promise<string> {
+  const prompt = `
+    You are a Backgammon Grandmaster. Review the following match history and provide a brief analysis.
+    Identify 1 or 2 critical moments where a better move could have been made, or praise good strategic play.
+    Keep it concise and helpful for the player.
+    
+    Match History:
+    ${history.join('\n')}
+    
+    Provide your analysis in plain text.
+  `;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3.1-pro-preview",
+      contents: prompt,
+    });
+
+    return response.text || "No analysis available.";
+  } catch (error) {
+    console.error("Analysis Error:", error);
+    return "Could not generate analysis at this time.";
+  }
+}

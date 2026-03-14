@@ -16,6 +16,8 @@ export interface GameState {
   status: 'playing' | 'won' | 'rolling';
   winner?: Player;
   history: string[];
+  scores: { white: number; black: number };
+  analysis?: string;
 }
 
 export const INITIAL_BOARD: BoardState = {
